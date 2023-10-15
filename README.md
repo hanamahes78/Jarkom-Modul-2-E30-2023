@@ -18,7 +18,7 @@ Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjun
 ## **Penyelesaian Soal Nomor 1**
 Berikut adalah topologi yang digunakan. 
 
-**Konfigurasi**
+### Konfigurasi
 - Pandudewanata
     ```
     auto eth0
@@ -104,7 +104,7 @@ Berikut adalah topologi yang digunakan.
 	    gateway 192.221.3.1
     ```
 
-**Script Awal**
+### Script Awal
 Menambahkan pada `root/.bashrc` masing-masing node.
 - Router (Pandudewanata)
   ```
