@@ -13,7 +13,153 @@ Berikut repository dari Kelompok E30 Praktikum Modul 2 Jaringan Komputer.
 # **Dokumentasi dan Penjelasan Soal**
 <div align=justify>
 
-Berikut adalah dokumentasi yang berisi source code dari tiap soal dan penjelasan terkait perintah yang digunakan. 
+Berikut adalah topologi yang digunakan. 
+
+## **Konfigurasi**
+- Pandudewanata
+    ```
+    auto eth0
+    iface eth0 inet dhcp
+
+    auto eth1
+    iface eth1 inet static
+	    address 192.221.1.1
+	    netmask 255.255.255.0
+
+    auto eth2
+    iface eth2 inet static
+	    address 192.221.2.1
+	    netmask 255.255.255.0
+
+    auto eth3
+    iface eth3 inet static
+	    address 192.221.3.1
+	    netmask 255.255.255.0
+    ```
+- Nakula
+    ```
+    auto eth0
+    iface eth0 inet static
+	    address 192.221.1.2
+	    netmask 255.255.255.0
+	    gateway 192.221.1.1
+    ```
+- Sadewa
+    ```
+    auto eth0
+    iface eth0 inet static
+	    address 192.221.1.3
+	    netmask 255.255.255.0
+	    gateway 192.221.1.1
+    ```
+- Yudhistira
+    ```
+    auto eth0
+    iface eth0 inet static
+	    address 192.221.2.2
+	    netmask 255.255.255.0
+	    gateway 192.221.2.1
+    ```
+- Werkudara
+    ```
+    auto eth0
+    iface eth0 inet static
+	    address 192.221.2.3
+	    netmask 255.255.255.0
+	    gateway 192.221.2.1
+    ```
+- Prabukusuma
+    ```
+    auto eth0
+    iface eth0 inet static
+	    address 192.221.3.2
+	    netmask 255.255.255.0
+	    gateway 192.221.3.1
+    ```
+- Abimanyu
+    ```
+    auto eth0
+    iface eth0 inet static
+	    address 192.221.3.3
+	    netmask 255.255.255.0
+	    gateway 192.221.3.1
+    ```
+- Wisanggeni
+    ```
+    auto eth0
+    iface eth0 inet static
+	    address 192.221.3.4
+	    netmask 255.255.255.0
+	    gateway 192.221.3.1
+    ```
+- Arjuna
+    ```
+    auto eth0
+    iface eth0 inet static
+	    address 192.221.3.5
+	    netmask 255.255.255.0
+	    gateway 192.221.3.1
+    ```
+
+## **Script Awal**
+Menambahkan pada `root/.bashrc` masing-masing node.
+- Router (Pandudewanata)
+  ```
+    # ~/.bashrc: executed by bash(1) for non-login shells.
+    # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+    # for examples
+    ...
+    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.221.0.0/16
+  ```
+- Client (Nakula, Sadewa)
+  ```
+    # ~/.bashrc: executed by bash(1) for non-login shells.
+    # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+    # for examples
+    ...
+    echo -e '
+    nameserver 192.221.2.2
+    nameserver 192.221.2.3
+    nameserver 192.168.122.1
+    ' > /etc/resolv.conf
+
+    apt-get update
+    apt-get install dnsutils -y
+    apt-get install lynx -y
+  ```
+- Master & Slave (Yudhistira, Werkudara)
+  ```
+    # ~/.bashrc: executed by bash(1) for non-login shells.
+    # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+    # for examples
+    ...
+    echo 'nameserver 192.168.122.1' > /etc/resolv.conf
+
+    apt-get update
+    apt-get install bind9 -y
+  ```
+- Web Server (Prabakusuma, Abimanyu, Wisanggeni)
+  ```
+    # ~/.bashrc: executed by bash(1) for non-login shells.
+    # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+    # for examples
+    ...
+    echo "nameserver 192.168.122.1" > /etc/resolv.conf
+  
+    apt-get update
+    apt install nginx php php-fpm -y
+  ```
+- Load Balancer (Arjuna)
+  ```
+    # ~/.bashrc: executed by bash(1) for non-login shells.
+    # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+    # for examples
+    ...
+    echo "nameserver 192.168.122.1" > /etc/resolv.conf
+  
+    apt-get update
+    apt-get install nginx -y
+  ```
 
 ## **Soal Nomor 1**
 Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian.
