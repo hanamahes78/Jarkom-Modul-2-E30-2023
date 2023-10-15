@@ -13,9 +13,12 @@ Berikut repository dari Kelompok E30 Praktikum Modul 2 Jaringan Komputer.
 # **Dokumentasi dan Penjelasan Soal**
 <div align=justify>
 
+## **Soal Nomor 1**
+Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian.
+## **Penyelesaian Soal Nomor 1**
 Berikut adalah topologi yang digunakan. 
 
-## **Konfigurasi**
+**Konfigurasi**
 - Pandudewanata
     ```
     auto eth0
@@ -101,7 +104,7 @@ Berikut adalah topologi yang digunakan.
 	    gateway 192.221.3.1
     ```
 
-## **Script Awal**
+**Script Awal**
 Menambahkan pada `root/.bashrc` masing-masing node.
 - Router (Pandudewanata)
   ```
@@ -160,10 +163,6 @@ Menambahkan pada `root/.bashrc` masing-masing node.
     apt-get update
     apt-get install nginx -y
   ```
-
-## **Soal Nomor 1**
-Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian.
-## **Penyelesaian Soal Nomor 1**
 
 ## **Soal Nomor 2**
 Buatlah website utama pada node arjuna dengan akses ke arjuna.yyy.com dengan alias www.arjuna.yyy.com dengan yyy merupakan kode kelompok.
