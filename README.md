@@ -221,7 +221,48 @@ Pada node client akan dicek dengan melakukan test alias (CNAME) dan test ping ke
 ## **Soal Nomor 3**
 Dengan cara yang sama seperti soal nomor 2, buatlah website utama dengan akses ke abimanyu.yyy.com dan alias www.abimanyu.yyy.com.
 ## **Penyelesaian Soal Nomor 3**
+Sama dengan cara sebelumnya, dilakukan konfigurasi pada node Yudhistira dengan domain abimanyu.e30.com. Setelah itu dibuat file `abimanyu.e30.com` pada direktori tersebut dan disesuaikan.
+> Script dijalankan pada **root node Yudhistira** dengan command `bash no3.sh`
+- Yudhistira
+  ```
+	echo -e '
+	zone "abimanyu.e30.com" {
+        	type master;
+        	file "/etc/bind/abimanyu.e30/abimanyu.e30.com";
+	};
+ 	' > /etc/bind/named.conf.local
 
+	mkdir /etc/bind/abimanyu.e30
+
+	echo -e '
+	;
+	; BIND data file for local loopback interface
+	;
+	$TTL    604800
+	@       IN      SOA     abimanyu.e30.com. root.abimanyu.e30.com. (
+	                      	      2     	; Serial
+	                         604800         ; Refresh
+	                          86400         ; Retry
+	                        2419200         ; Expire
+	                         604800 )       ; Negative Cache TTL
+	;
+	@       IN      NS      abimanyu.e30.com.
+	@       IN      A       192.221.3.3	; IP Abimanyu 
+	www     IN      CNAME   abimanyu.e30.com. ; Alias
+	@       IN      AAAA    ::1
+	' > /etc/bind/abimanyu.e30/abimanyu.e30.com
+
+	service bind9 restart
+  ```
+  
+### Testing
+Pada node client akan dicek dengan melakukan test alias (CNAME) dan test ping ke domain abimanyu.e30.com.
+> Script dijalankan pada **root node Nakula** dengan command `bash no3.sh`
+- Nakula
+  ```
+  host -t CNAME www.abimanyu.e30.com
+  ping abimanyu.e30.com -c 3
+  ```
 
 ## **Soal Nomor 4**
 Kemudian, karena terdapat beberapa web yang harus di-deploy, buatlah subdomain parikesit.abimanyu.yyy.com yang diatur DNS-nya di Yudhistira dan mengarah ke Abimanyu.
