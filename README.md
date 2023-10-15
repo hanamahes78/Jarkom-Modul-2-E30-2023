@@ -164,20 +164,64 @@ Menambahkan pada `root/.bashrc` masing-masing node.
     apt-get install nginx -y
   ```
 
-### Test
+### Testing
 Setelah melakukan konfigurasi, akan dilakukan pengecekan internet untuk semua node dengan melakukan ping terhadap `google.com`.
-```
-ping google.com -c 3
-```
+> Script dijalankan dengan command `bash no1.sh`
+- Semua Node
+  ```
+  ping google.com -c 3
+  ```
 
 ## **Soal Nomor 2**
 Buatlah website utama pada node arjuna dengan akses ke arjuna.yyy.com dengan alias www.arjuna.yyy.com dengan yyy merupakan kode kelompok.
 ## **Penyelesaian Soal Nomor 2**
+Dilakukan konfigurasi `/etc/bind/named.conf.local` pada node Yudhistira dengan domain arjuna.e30.com. Setelah itu dibuat direktori `/etc/bind/arjuna.e30`. Kemudian dibuat file `arjuna.e30.com` pada direktori tersebut dan file dilakukan konfigurasi (setelah command mkdir). Setelah selesai bind9 direstart menggunakan command `service bind9 restart`.
+> Script dijalankan pada **root node Yudhistira** dengan command `bash no2.sh`
+- Yudhistira
+  ```
+	echo -e '
+	zone "arjuna.e30.com" {
+        	type master;
+       		file "/etc/bind/arjuna.e30/arjuna.e30.com";
+	};
+ 	' > /etc/bind/named.conf.local
 
+	mkdir /etc/bind/arjuna.e30
+
+	echo -e '
+	;
+	; BIND data file for local loopback interface
+	;
+	$TTL    604800
+	@       IN      SOA     arjuna.e30.com. root.arjuna.e30.com. (
+	                      	      2     	; Serial
+	                         604800         ; Refresh
+	                          86400         ; Retry
+	                        2419200         ; Expire
+	                         604800 )       ; Negative Cache TTL
+	;
+	@       IN      NS      arjuna.e30.com.
+	@       IN      A       192.221.3.5	; IP Arjuna 
+	www     IN      CNAME   arjuna.e30.com. ; Alias
+	@       IN      AAAA    ::1
+	' > /etc/bind/arjuna.e30/arjuna.e30.com
+
+	service bind9 restart
+  ```
+  
+### Testing
+Pada node client akan dicek dengan melakukan test alias (CNAME) dan test ping ke domain arjuna.e30.com.
+> Script dijalankan pada **root node Nakula** dengan command `bash no2.sh`
+- Nakula
+  ```
+  host -t CNAME www.arjuna.e30.com
+  ping arjuna.e30.com -c 3
+  ```
 
 ## **Soal Nomor 3**
 Dengan cara yang sama seperti soal nomor 2, buatlah website utama dengan akses ke abimanyu.yyy.com dan alias www.abimanyu.yyy.com.
 ## **Penyelesaian Soal Nomor 3**
+
 
 ## **Soal Nomor 4**
 Kemudian, karena terdapat beberapa web yang harus di-deploy, buatlah subdomain parikesit.abimanyu.yyy.com yang diatur DNS-nya di Yudhistira dan mengarah ke Abimanyu.
