@@ -352,6 +352,49 @@ Pada node client akan dilakukan test reverse domain.
 ## **Soal Nomor 6**
 Agar dapat tetap dihubungi ketika DNS Server Yudhistira bermasalah, buat juga Werkudara sebagai DNS Slave untuk domain utama.
 ## **Penyelesaian Soal Nomor 6**
+Dilakukan konfigurasi `/etc/bind/named.conf.local` pada node Yudhistira dengan tambahan `also-notify dan allow-transfer`. Kemudian bind9 direstart menggunakan command `service bind9 restart`.
+> Script dijalankan pada **root node Yudhistira** dengan command `bash no6.sh`
+- Yudhistira
+  ```
+	echo -e '
+	zone "abimanyu.e30.com" {
+        	type master;
+		notify yes;
+		also-notify { 192.221.2.3; }; // IP Werkudara
+		allow-transfer { 192.221.2.3; }; // IP Werkudara
+        	file "/etc/bind/abimanyu.e30/abimanyu.e30.com";
+	};
+ 	' > /etc/bind/named.conf.local
+
+	service bind9 restart
+  ```
+Dilakukan juga konfigurasi `/etc/bind/named.conf.local` pada node Werkudara dengan tambahan zone. Kemudian bind9 direstart menggunakan command `service bind9 restart`.
+> Script dijalankan pada **root node Yudhistira** dengan command `bash no6.sh`
+- Werkudara
+  ```
+	echo -e '
+	zone "abimanyu.e30.com" {
+    		type slave;
+    		masters { 192.221.2.2; }; // IP Yudhistira
+    		file "/var/lib/bind/abimanyu.e30/abimanyu.e30.com";
+	};
+ 	' > /etc/bind/named.conf.local
+
+	service bind9 restart
+  ```
+
+### Testing
+Pada node Yudhistira service bind9 akan dimatikan.
+- Yudhistira
+  ```
+  service bind9 stop
+  ```
+Kemudian dicek node client dengan melakukan test ping ke abimanyu.e30.com.
+> Script dijalankan pada **root node Nakula** dengan command `bash no6.sh`
+- Nakula
+  ```
+  ping abimanyu.e30.com -c 3
+  ```
 
 ## **Soal Nomor 7**
 Seperti yang kita tahu karena banyak sekali informasi yang harus diterima, buatlah subdomain khusus untuk perang yaitu baratayuda.abimanyu.yyy.com dengan alias www.baratayuda.abimanyu.yyy.com yang didelegasikan dari Yudhistira ke Werkudara dengan IP menuju ke Abimanyu dalam folder Baratayuda.
