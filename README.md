@@ -164,9 +164,16 @@ Menambahkan pada `root/.bashrc` masing-masing node.
     apt-get install nginx -y
   ```
 
+### Test
+Setelah melakukan konfigurasi, akan dilakukan pengecekan internet untuk semua node dengan melakukan ping terhadap `google.com`.
+```
+ping google.com -c 3
+```
+
 ## **Soal Nomor 2**
 Buatlah website utama pada node arjuna dengan akses ke arjuna.yyy.com dengan alias www.arjuna.yyy.com dengan yyy merupakan kode kelompok.
 ## **Penyelesaian Soal Nomor 2**
+
 
 ## **Soal Nomor 3**
 Dengan cara yang sama seperti soal nomor 2, buatlah website utama dengan akses ke abimanyu.yyy.com dan alias www.abimanyu.yyy.com.
