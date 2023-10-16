@@ -529,7 +529,45 @@ Pada node client dicek dengan melakukan test ping ke baratayuda.abimanyu.e30.com
 ## **Soal Nomor 8**
 Untuk informasi yang lebih spesifik mengenai Ranjapan Baratayuda, buatlah subdomain melalui Werkudara dengan akses rjp.baratayuda.abimanyu.yyy.com dengan alias www.rjp.baratayuda.abimanyu.yyy.com yang mengarah ke Abimanyu.
 ## **Penyelesaian Soal Nomor 8**
-v
+Pada node Werkudara dilakukan penambahan alias pada file `abimanyu.e30.com` dengan `www.rjp.baratayuda IN CNAME baratayuda`. Setelah selesai bind9 direstart menggunakan command `service bind9 restart`. 
+> Script dijalankan pada **root node Werkudara** dengan command `bash no8.sh`
+- Werkudara
+  ```
+	echo -e '
+	;
+	; BIND data file for local loopback interface
+	;
+	$TTL    604800
+	@       IN      SOA     abimanyu.e30.com. root.abimanyu.e30.com. (
+	                              2         ; Serial
+	                         604800         ; Refresh
+	                          86400         ; Retry
+	                        2419200         ; Expire
+	                         604800 )       ; Negative Cache TTL
+	;
+	@			IN      NS      abimanyu.e30.com.
+	@			IN      A       192.221.3.3		; IP Abimanyu 
+	www			IN      CNAME   abimanyu.e30.com.	; Alias
+	parikesit		IN      A       192.221.3.3		; IP Abimanyu
+	www.parikesit		IN      CNAME   parikesit		; Alias
+	ns1			IN	A	192.221.2.3		; IP Werkudara
+	baratayuda		IN	NS	ns1
+	www.baratayuda		IN      CNAME   baratayuda          	; Alias
+	www.rjp.baratayuda	IN	CNAME	baratayuda		; Alias
+	@       		IN      AAAA    ::1
+	' > /etc/bind/abimanyu.e30/abimanyu.e30.com
+	
+	service bind9 restart
+  ```
+
+### Testing
+Pada node client dicek dengan melakukan test ping ke rjp.baratayuda.abimanyu.e30.com.
+> Script dijalankan pada **root node Nakula** dengan command `bash no8.sh`
+- Nakula
+  ```
+	ping rjp.baratayuda.abimanyu.e30.com -c 3
+	ping www.rjp.baratayuda.abimanyu.e30.com -c 3
+  ```
 
 ## **Soal Nomor 9**
 Arjuna merupakan suatu Load Balancer Nginx dengan tiga worker (yang juga menggunakan nginx sebagai webserver) yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Lakukan deployment pada masing-masing worker.
