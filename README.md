@@ -369,7 +369,7 @@ Dilakukan konfigurasi `/etc/bind/named.conf.local` pada node Yudhistira dengan t
 	service bind9 restart
   ```
 Dilakukan juga konfigurasi `/etc/bind/named.conf.local` pada node Werkudara dengan tambahan zone. Kemudian bind9 direstart menggunakan command `service bind9 restart`.
-> Script dijalankan pada **root node Yudhistira** dengan command `bash no6.sh`
+> Script dijalankan pada **root node Werkudara** dengan command `bash no6.sh`
 - Werkudara
   ```
 	echo -e '
@@ -399,7 +399,132 @@ Kemudian dicek node client dengan melakukan test ping ke abimanyu.e30.com.
 ## **Soal Nomor 7**
 Seperti yang kita tahu karena banyak sekali informasi yang harus diterima, buatlah subdomain khusus untuk perang yaitu baratayuda.abimanyu.yyy.com dengan alias www.baratayuda.abimanyu.yyy.com yang didelegasikan dari Yudhistira ke Werkudara dengan IP menuju ke Abimanyu dalam folder Baratayuda.
 ## **Penyelesaian Soal Nomor 7**
-v
+Pada node Yudhistira dibuat direktori `/etc/bind/abimanyu.e30`. Kemudian dibuat file `abimanyu.e30.com` pada direktori tersebut dan file dilakukan konfigurasi dengan domain baratayuda.abimanyu.e30.com. Kemudian dilakukan konfigurasi juga pada `/etc/bind/named.conf.options` dengan menambahkan `allow-query{any;};`. Setelah selesai bind9 direstart menggunakan command `service bind9 restart`.
+> Script dijalankan pada **root node Yudhistira** dengan command `bash no7.sh`
+- Yudhistira
+  ```
+	echo -e '
+	;
+	; BIND data file for local loopback interface
+	;
+	$TTL    604800
+	@       IN      SOA     abimanyu.e30.com. root.abimanyu.e30.com. (
+	                      	      2     	; Serial
+	                         604800         ; Refresh
+	                          86400         ; Retry
+	                        2419200         ; Expire
+	                         604800 )       ; Negative Cache TTL
+	;
+	@		IN      NS      abimanyu.e30.com.
+	@		IN      A       192.221.3.3		; IP Abimanyu 
+	www		IN      CNAME   abimanyu.e30.com.	; Alias
+	parikesit	IN      A       192.221.3.3		; IP Abimanyu
+	www.parikesit	IN      CNAME   parikesit		; Alias
+	ns1		IN	A	192.221.2.3		; IP Werkudara
+	baratayuda	IN	NS	ns1
+	www.baratayuda	IN      CNAME   baratayuda          	; Alias
+	@       	IN      AAAA    ::1
+	' > /etc/bind/abimanyu.e30/abimanyu.e30.com
+	
+	mkdir /etc/bind/abimanyu.e30
+	
+	echo -e '
+	options {
+	        directory "/var/cache/bind";
+	
+	        // If there is a firewall between you and nameservers you want
+	        // to talk to, you may need to fix the firewall to allow multiple
+	        // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+	        // forwarders {
+	        //      192.168.122.1;
+	        // };
+	
+	        //========================================================================
+	        // If BIND logs error messages about the root key being expired,
+	        // you will need to update your keys.  See https://www.isc.org/bind-keys
+	        //========================================================================
+	        //dnssec-validation auto;
+	        allow-query{any;};
+	
+	        auth-nxdomain no;    # conform to RFC1035
+	        listen-on-v6 { any; };
+	};
+	' > /etc/bind/named.conf.options
+	
+	service bind9 restart
+  ```
+Dilakukan juga konfigurasi `/etc/bind/named.conf.local` pada node Werkudara dengan tambahan zone `baratayuda.abimanyu.e30.com`. Dibuat direktori `/etc/bind/baratayuda` lalu dibuat file `baratayuda.abimanyu.e30.com` pada direktori tersebut dan file dilakukan konfigurasi dengan domain baratayuda.abimanyu.e30.com. Kemudian dilakukan konfigurasi juga pada `/etc/bind/named.conf.options` dengan menambahkan `allow-query{any;};`. Setelah selesai bind9 direstart menggunakan command `service bind9 restart`. 
+> Script dijalankan pada **root node Werkudara** dengan command `bash no7.sh`
+- Werkudara
+  ```
+	echo -e '
+	options {
+	        directory "/var/cache/bind";
+	
+	        // If there is a firewall between you and nameservers you want
+	        // to talk to, you may need to fix the firewall to allow multiple
+	        // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+	        // forwarders {
+	        //      0.0.0.0;
+	        // };
+	
+	        //========================================================================
+	        // If BIND logs error messages about the root key being expired,
+	        // you will need to update your keys.  See https://www.isc.org/bind-keys
+	        //========================================================================
+	        //dnssec-validation auto;
+	        allow-query{any;};
+	
+	        auth-nxdomain no;    # conform to RFC1035
+	        listen-on-v6 { any; };
+	};
+	' > /etc/bind/named.conf.options
+	
+	echo -e '
+	zone "abimanyu.e30.com" {
+	    type slave;
+	    masters { 192.221.2.2; }; // IP Yudhistira
+	    file "/var/lib/bind/abimanyu.e30/abimanyu.e30.com";
+	};
+	
+	zone "baratayuda.abimanyu.e30.com" {
+	        type master;
+	        file "/etc/bind/baratayuda/baratayuda.abimanyu.e30.com";
+	};
+	' > /etc/bind/named.conf.local
+	
+	mkdir /etc/bind/baratayuda
+	
+	echo -e '
+	;
+	; BIND data file for local loopback interface
+	;
+	$TTL    604800
+	@       IN      SOA     baratayuda.abimanyu.e30.com. root.baratayuda.abimanyu.e30.com. (
+	                              2         ; Serial
+	                         604800         ; Refresh
+	                          86400         ; Retry
+	                        2419200         ; Expire
+	                         604800 )       ; Negative Cache TTL
+	;
+	@       	IN      NS          baratayuda.abimanyu.e30.com.
+	@       	IN      A           192.221.3.3			; IP Abimanyu
+	www       	IN      CNAME       baratayuda.abimanyu.e30.com.
+	@               IN      AAAA	    ::1
+	' > /etc/bind/baratayuda/baratayuda.abimanyu.e30.com
+	
+	service bind9 restart
+  ```
+
+### Testing
+Pada node client dicek dengan melakukan test ping ke baratayuda.abimanyu.e30.com.
+> Script dijalankan pada **root node Nakula** dengan command `bash no7.sh`
+- Nakula
+  ```
+	ping abimanyu.e30.com -c 3
+	ping baratayuda.abimanyu.e30.com -c 3
+	ping www.baratayuda.abimanyu.e30.com -c 3
+  ```
 
 ## **Soal Nomor 8**
 Untuk informasi yang lebih spesifik mengenai Ranjapan Baratayuda, buatlah subdomain melalui Werkudara dengan akses rjp.baratayuda.abimanyu.yyy.com dengan alias www.rjp.baratayuda.abimanyu.yyy.com yang mengarah ke Abimanyu.
