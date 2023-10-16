@@ -105,7 +105,7 @@ Berikut adalah topologi yang digunakan.
     ```
 
 ### Script Awal
-Menambahkan pada `root/.bashrc` masing-masing node.
+Menambahkan pada `/root/.bashrc` masing-masing node.
 - Router (Pandudewanata)
   ```
     # ~/.bashrc: executed by bash(1) for non-login shells.
