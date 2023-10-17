@@ -561,13 +561,104 @@ Pada node client dicek dengan melakukan test ping ke rjp.baratayuda.abimanyu.e30
 	ping www.rjp.baratayuda.abimanyu.e30.com -c 3
   ```
 
-## **Soal Nomor 9**
+## **Soal Nomor 9 & 10**
 Arjuna merupakan suatu Load Balancer Nginx dengan tiga worker (yang juga menggunakan nginx sebagai webserver) yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Lakukan deployment pada masing-masing worker.
-## **Penyelesaian Soal Nomor 9**
-
-## **Soal Nomor 10**
 Kemudian gunakan algoritma Round Robin untuk Load Balancer pada Arjuna. Gunakan server_name pada soal nomor 1. Untuk melakukan pengecekan akses alamat web tersebut kemudian pastikan worker yang digunakan untuk menangani permintaan akan berganti ganti secara acak. Untuk webserver di masing-masing worker wajib berjalan di port 8001-8003. Contoh
     - Prabakusuma:8001
     - Abimanyu:8002
     - Wisanggeni:8003
-## **Penyelesaian Soal Nomor 10**
+## **Penyelesaian Soal Nomor 9 & 10**
+Pada node Arjuna dilakukan konfigurasi load balancing. Kemudian dilakukan `symlink` untuk menghubungkan direktori `/etc/nginx/sites-available/jarkom` ke `/etc/nginx/sites-enabled/jarkom`. Setelah selesai bind9 direstart menggunakan command `service bind9 restart`. 
+> Script dijalankan pada **root node Arjuna** dengan command `bash no9.sh`
+- Arjuna
+  ```
+	echo '
+	nameserver 192.221.2.2 # IP Yudhistira
+	nameserver 192.221.2.3 # IP Werkudara
+	nameserver 192.168.122.1 # IP Public
+	' > /etc/resolv.conf
+	
+	echo 'upstream backend {
+	  server 192.221.3.2; # IP PrabuKusuma
+	  server 192.221.3.3; # IP Abimanyu
+	  server 192.221.3.4; # IP Wisanggeni
+	}
+	
+	server {
+	  listen 80;
+	  server_name arjuna.e30.com www.arjuna.e30.com;
+	
+	  location / {
+	    proxy_pass http://backend;
+	  }
+	}
+	' > /etc/nginx/sites-available/jarkom
+	
+	ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled/jarkom
+	rm /etc/nginx/sites-enabled/default
+	service nginx restart
+  ```
+Selanjutnya pada semua node web server dilakukan juga konfigurasi agar nama server `arjuna.e30.com` dapat terhubung. Dilakukan `symlink` untuk menghubungkan direktori lalu bind9 direstart menggunakan command `service bind9 restart`. 
+> Script dijalankan pada **root semua node web server** dengan command `bash no9.sh`
+- Semua node web server
+  ```
+	service php7.0-fpm start
+	
+	echo 'server {
+	        listen 80;
+	
+	        root /var/www/jarkom;
+	        index index.php index.html index.htm index.nginx-debian.html;
+	
+	        server_name _;
+	
+	        location / {
+	                try_files $uri $uri/ /index.php?$query_string;
+	        }
+	
+	        location ~ \.php$ {
+	                include snippets/fastcgi-php.conf;
+	                fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+	        }
+	
+	        location ~ /\.ht {
+	                deny all;
+	        }
+	}' > /etc/nginx/sites-available/jarkom
+	
+	ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled/jarkom
+	rm /etc/nginx/sites-enabled/default
+	service nginx restart
+  ```
+Kemudian pada tiap node web server diberi file `index.php` berisi kalimat yang ingin ditampilkan.
+- Semua node web server
+	```
+ 	mkdir /var/www/jarkom
+	```
+- Wisanggeni
+	```
+ 	echo "<?php echo 'Halo, Wisanggeni disini'; ?>" > /var/www/jarkom/index.php
+ 	```
+- Abimanyu
+	```
+ 	echo "<?php echo 'Halo, Abimanyu disini'; ?>" > /var/www/jarkom/index.php
+ 	```
+- Prabukusuma
+	```
+ 	echo "<?php echo 'Halo, Prabukusuma disini'; ?>" > /var/www/jarkom/index.php
+ 	```
+ 
+### Testing
+Pada node client dicek dengan melakukan lynx ke IP web server.
+- Nakula
+  ```
+  lynx http://192.221.3.4
+  ```
+
+  ```
+  lynx http://192.221.3.3
+  ```
+
+  ```
+  lynx http://192.221.3.2
+  ```
