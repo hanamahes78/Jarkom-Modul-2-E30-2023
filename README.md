@@ -17,7 +17,7 @@ Berikut repository dari Kelompok E30 Praktikum Modul 2 Jaringan Komputer.
 Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian.
 ## **Penyelesaian Soal Nomor 1**
 Berikut adalah topologi yang digunakan. 
-
+![05](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/aff95ddb-9324-4b6a-a168-568a8598a65b)
 ### Konfigurasi
 - Pandudewanata
     ```
