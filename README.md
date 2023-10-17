@@ -17,6 +17,7 @@ Berikut repository dari Kelompok E30 Praktikum Modul 2 Jaringan Komputer.
 Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian.
 ## **Penyelesaian Soal Nomor 1**
 Berikut adalah topologi yang digunakan. 
+
 ![05](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/aff95ddb-9324-4b6a-a168-568a8598a65b)
 ### Konfigurasi
 - Pandudewanata
@@ -668,12 +669,13 @@ Kemudian pada tiap node web server diberi file `index.php` berisi kalimat yang i
  	```
  
 ### Testing
-Pada node client dicek dengan melakukan lynx ke IP web server.
 ![9 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/b6359c19-1394-40c3-a622-0a0766172075)
 ![9 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/2daebb41-a830-4985-b784-57b2eb13a870)
 ![9 3](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/e310874d-f994-4987-a850-7dfdab8d70d3)
 ![9 6](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/c2952579-9dba-4511-acc6-d04c2105005c)
 ![9 9](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/26735ed7-df11-446d-916c-5ffcc555f9bc)
+
+Pada node client dicek dengan melakukan lynx ke IP web server.
 - Nakula
   ```
   lynx http://192.221.3.4
