@@ -171,6 +171,8 @@ Setelah melakukan konfigurasi, akan dilakukan pengecekan internet untuk semua no
   ```
   ping google.com -c 3
   ```
+![1 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/82241736-9586-44e4-89d9-55109f124f4f)
+![1 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/9f975723-6571-4e75-a763-d2ee8c5ec118)
 
 ## **Soal Nomor 2**
 Buatlah website utama pada node arjuna dengan akses ke arjuna.yyy.com dengan alias www.arjuna.yyy.com dengan yyy merupakan kode kelompok.
@@ -217,6 +219,8 @@ Pada node client akan dicek dengan melakukan test alias (CNAME) dan test ping ke
   host -t CNAME www.arjuna.e30.com
   ping arjuna.e30.com -c 3
   ```
+![2 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/0c5cfd7c-4741-476e-b187-52e3891b795d)
+![2 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/88285973-e995-40f3-ad76-136868075704)
 
 ## **Soal Nomor 3**
 Dengan cara yang sama seperti soal nomor 2, buatlah website utama dengan akses ke abimanyu.yyy.com dan alias www.abimanyu.yyy.com.
@@ -263,6 +267,8 @@ Pada node client akan dicek dengan melakukan test alias (CNAME) dan test ping ke
   host -t CNAME www.abimanyu.e30.com
   ping abimanyu.e30.com -c 3
   ```
+![3 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/9f9a7be3-0714-44a6-ab9c-0b303b949610)
+![3 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/79e11d9b-7953-4e63-9d83-a5c5b48c55f0)
 
 ## **Soal Nomor 4**
 Kemudian, karena terdapat beberapa web yang harus di-deploy, buatlah subdomain parikesit.abimanyu.yyy.com yang diatur DNS-nya di Yudhistira dan mengarah ke Abimanyu.
@@ -300,7 +306,9 @@ Pada node client akan dicek dengan melakukan test ping ke domain parikesit.abima
   ```
   ping parikesit.abimanyu.e30.com -c 3
   ```
-  
+![4 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/ae5276e0-b00b-4122-9cf9-d4f990203b17)
+![4 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/0ec04158-5eee-4317-be38-83922c637054)
+
 ## **Soal Nomor 5**
 Buat juga reverse domain untuk domain utama. (Abimanyu saja yang direverse)
 ## **Penyelesaian Soal Nomor 5**
@@ -348,6 +356,8 @@ Pada node client akan dilakukan test reverse domain.
   ```
   host -t PTR 192.221.3.3
   ```
+![5 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/edd88e2c-8acf-4b9d-920a-32be7035434a)
+![5 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/38d6024b-fe3e-410e-aa6e-39374ae3e394)
 
 ## **Soal Nomor 6**
 Agar dapat tetap dihubungi ketika DNS Server Yudhistira bermasalah, buat juga Werkudara sebagai DNS Slave untuk domain utama.
@@ -395,6 +405,10 @@ Kemudian dicek node client dengan melakukan test ping ke abimanyu.e30.com.
   ```
   ping abimanyu.e30.com -c 3
   ```
+![6 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/7301c102-88e5-4e88-91fe-d24500a61f74)
+![6 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/653787b2-beb4-460e-b16b-1306639ee8b1)
+![6 3](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/dff49b19-99cf-40a5-ad84-f0d214e935c1)
+![6 4](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/52efa2c7-a9b3-4667-985f-a0d0b9bf267d)
 
 ## **Soal Nomor 7**
 Seperti yang kita tahu karena banyak sekali informasi yang harus diterima, buatlah subdomain khusus untuk perang yaitu baratayuda.abimanyu.yyy.com dengan alias www.baratayuda.abimanyu.yyy.com yang didelegasikan dari Yudhistira ke Werkudara dengan IP menuju ke Abimanyu dalam folder Baratayuda.
@@ -525,6 +539,9 @@ Pada node client dicek dengan melakukan test ping ke baratayuda.abimanyu.e30.com
 	ping baratayuda.abimanyu.e30.com -c 3
 	ping www.baratayuda.abimanyu.e30.com -c 3
   ```
+![7 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/41206985-6097-4ae0-b415-194c2aea4b2f)
+![7 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/c10001d8-7c94-43de-9df2-a3d6f9cf0fbd)
+![7 3](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/4fba27b7-1c5b-41f6-b7a7-3d50273b7e28)
 
 ## **Soal Nomor 8**
 Untuk informasi yang lebih spesifik mengenai Ranjapan Baratayuda, buatlah subdomain melalui Werkudara dengan akses rjp.baratayuda.abimanyu.yyy.com dengan alias www.rjp.baratayuda.abimanyu.yyy.com yang mengarah ke Abimanyu.
@@ -560,6 +577,8 @@ Pada node client dicek dengan melakukan test ping ke rjp.baratayuda.abimanyu.e30
 	ping rjp.baratayuda.abimanyu.e30.com -c 3
 	ping www.rjp.baratayuda.abimanyu.e30.com -c 3
   ```
+![8 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/611ae895-2fde-4be5-8046-a3360b0975b7)
+![8 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/f1dd3877-88f5-4ab5-8121-c93134e67642)
 
 ## **Soal Nomor 9 & 10**
 Arjuna merupakan suatu Load Balancer Nginx dengan tiga worker (yang juga menggunakan nginx sebagai webserver) yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Lakukan deployment pada masing-masing worker.
@@ -650,15 +669,24 @@ Kemudian pada tiap node web server diberi file `index.php` berisi kalimat yang i
  
 ### Testing
 Pada node client dicek dengan melakukan lynx ke IP web server.
+![9 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/b6359c19-1394-40c3-a622-0a0766172075)
+![9 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/2daebb41-a830-4985-b784-57b2eb13a870)
+![9 3](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/e310874d-f994-4987-a850-7dfdab8d70d3)
+![9 6](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/c2952579-9dba-4511-acc6-d04c2105005c)
+![9 9](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/26735ed7-df11-446d-916c-5ffcc555f9bc)
 - Nakula
   ```
   lynx http://192.221.3.4
   ```
-
+![9 4](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/5d0ad9ff-3bfa-4cbf-9f65-9aba600d6541)
+![9 5](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/9f97693a-2eaf-4a8e-a787-b7a44ebf63e3)
   ```
   lynx http://192.221.3.3
   ```
-
+![9 7](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/76c2a1fa-b9d2-4174-a89b-5f86f498c3a2)
+![9 8](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/ffb39352-bffc-40a7-9b7c-84f70f7e5bbd)
   ```
   lynx http://192.221.3.2
   ```
+![10 1](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/729f2aeb-21c5-4a03-a49b-b659d89aee18)
+![10 2](https://github.com/hanamahes78/Jarkom-Modul-2-E30-2023/assets/108173681/cb8c112e-aa1f-4713-9d68-b74344903ab7)
